@@ -6,13 +6,48 @@
   <link href="https://fonts.googleapis.com/css2?family=Momo+Signature&family=Momo+Trust+Display&display=swap" rel="stylesheet">
   <title>Cạnh một chữ Tình</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #1f2933;
-      color: #e5e7eb;
+    html, body {
       margin: 0;
-      padding: 40px 0;
-      animation: fadeIn 1.5s ease-in;
+      padding: 0;
+      height: 100%;
+      scroll-behavior: smooth;
+      font-family: serif;
+    }
+
+    .container {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+    }
+
+    .memory {
+      height: 100vh;
+      scroll-snap-align: start;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background: #0f172a;
+      color: white;
+
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    .memory h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .memory p {
+      max-width: 600px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      text-align: center;
+      opacity: 0.9;
     }
 
    .page-title {
@@ -34,56 +69,6 @@
   font-family: 'Momo Signature', cursive;
   opacity: 0.65;
 }
-
-    .timeline {
-      position: relative;
-      max-width: 700px;
-      margin: auto;
-      padding-left: 30px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: #64748b;
-    }
-
-    .event {
-      position: relative;
-      margin-bottom: 40px;
-      padding-left: 30px;
-    }
-
-    .event::before {
-      content: '❤';
-      position: absolute;
-      left: -2px;
-      top: 0;
-      font-size: 14px;
-      color: #f472b6;
-    }
-
-    .date {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 6px;
-    }
-
-    .title {
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #cbd5f5;
-    }
 
     footer {
       text-align: center;
@@ -119,32 +104,44 @@
   <h2>Minh Minh & Du Du</h2>
 </div>
 
-  <div class="timeline">
-    <div class="event">
-      <div class="date">Ngày đầu tiên</div>
-      <div class="title">Chúng mình gặp nhau</div>
-      <div class="desc">Một cuộc gặp rất bình thường, nhưng cảm giác thì không.</div>
-    </div>
+  <div class="container">
+    <section class="memory">
+      <h1>Ngày đầu mình nói chuyện</h1>
+      <p>Hôm đó trời mưa, nhưng lòng thì nắng.</p>
+    </section>
 
-    <div class="event">
-      <div class="date">Những ngày sau đó</div>
-      <div class="title">Bắt đầu nói chuyện nhiều hơn</div>
-      <div class="desc">Từ vài câu xã giao thành những đoạn chat dài không dứt.</div>
-    </div>
+    <section class="memory">
+      <h1>Lần đầu gặp nhau</h1>
+      <p>Tớ đã lo đến mức tay lạnh ngắt.</p>
+    </section>
 
-    <div class="event">
-      <div class="date">Một ngày rất khẽ</div>
-      <div class="title">Nhận ra mình quan trọng với nhau</div>
-      <div class="desc">Không cần nói ra, nhưng đều biết.</div>
-    </div>
-
-    <div class="event">
-      <div class="date">Hiện tại</div>
-      <div class="title">Đang cùng nhau đi tiếp</div>
-      <div class="desc">Chậm rãi, nhưng là cùng một hướng.</div>
-    </div>
+    <section class="memory">
+      <h1>Một buổi chiều rất yên</h1>
+      <p>Không nói gì nhiều, mà nhớ rất lâu.</p>
+    </section>
   </div>
+  
+<script>
+    const memories = document.querySelectorAll('.memory');
 
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          } else {
+            entry.target.style.opacity = 0;
+            entry.target.style.transform = 'translateY(40px)';
+          }
+        });
+      },
+      { threshold: 0.6 }
+       root: document.querySelector('.container')
+    );
+
+    memories.forEach(memory => observer.observe(memory));
+</script>
   <footer>
     Viết cho Minh – bằng sự dịu dàng của Du
   </footer>
